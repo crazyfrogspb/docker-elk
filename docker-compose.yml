@@ -70,7 +70,7 @@ services:
     networks:
       - elk
     depends_on:
-      - elasticsearch
+      - elasticsearch-node1
 
 networks:
   elk:
