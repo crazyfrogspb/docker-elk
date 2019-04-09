@@ -1,4 +1,4 @@
 cluster.name: "smapp-elastic"
-node.name: ${NODE_NAME}
+node.name: ${HOSTNAME}
 network.host: 0.0.0.0
 discovery.zen.ping.unicast.hosts: ["192.168.0.71", "192.168.0.81"]
