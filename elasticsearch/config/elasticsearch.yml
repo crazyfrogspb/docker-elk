@@ -3,7 +3,7 @@
 ## from https://github.com/elastic/elasticsearch-docker/blob/master/build/elasticsearch/elasticsearch.yml
 #
 cluster.name: "smapp-elastic"
-node.name: "es-node-1"
+node.name: $NODE_NAME
 node.master: true
 node.data: true
 network.host: 0.0.0.0
@@ -12,7 +12,7 @@ network.host: 0.0.0.0
 # set to 1 to allow single node clusters
 # Details: https://github.com/elastic/elasticsearch/pull/17288
 discovery.zen.minimum_master_nodes: 1
-discovery.zen.ping.unicast.hosts: ["192.168.0.71:9301", "192.168.0.81:9302"]
+discovery.zen.ping.unicast.hosts: ["192.168.0.71:9300", "192.168.0.81:9300"]
 
 ## Use single node discovery in order to disable production mode and avoid bootstrap checks
 ## see https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html

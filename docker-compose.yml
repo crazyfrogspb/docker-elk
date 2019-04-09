@@ -10,10 +10,11 @@ services:
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
     ports:
-      - "9201:9200"
-      - "9301:9300"
+      - "9200:9200"
+      - "9300:9300"
     environment:
       discovery.type: zen
+      discovery.zen.ping.unicast.hosts: ["192.168.0.71:9300", "192.168.0.81:9300"]
       ES_JAVA_OPTS: "-Xmx16000m -Xms16000m"
     networks:
       - elk
