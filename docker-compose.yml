@@ -2,39 +2,61 @@ version: '2'
 
 services:
 
-  elasticsearch:
+  elasticsearch-node1:
     build:
       context: elasticsearch/
       args:
         ELK_VERSION: $ELK_VERSION
-    volumes:
-      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+    container_name: elasticsearch-node1
+    command: >
+        elasticsearch
+        --node.name="node1"
+        --cluster.name="smapp-elastic"
+        --network.host=0.0.0.0
+        --discovery.zen.ping.multicast.enabled=false
+        --discovery.zen.ping.unicast.hosts="192.168.0.71,192.168.0.81"
+        --node.master=true
+        --node.data=true
+        --bootstrap.mlockall=true
     ports:
-      - "9200"
-      - "9300"
+      - "9201:9200"
+      - "9301:9300"
     environment:
       discovery.type: zen
-      ES_JAVA_OPTS: "-Xmx16000m -Xms16000m"
+      ES_JAVA_OPTS: "-Xmx8g"
+      ES_HEAP_SIZE: "4g"
     networks:
-      - elk
+      default:
+        ipv4_address: 192.168.0.71
+    restart: unless-stopped
 
-  logstash:
+  elasticsearch-node2:
     build:
-      context: logstash/
+      context: elasticsearch/
       args:
         ELK_VERSION: $ELK_VERSION
-    volumes:
-      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
-      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+    container_name: elasticsearch-node2
+    command: >
+        elasticsearch
+        --node.name="node2"
+        --cluster.name="smapp-elastic"
+        --network.host=0.0.0.0
+        --discovery.zen.ping.multicast.enabled=false
+        --discovery.zen.ping.unicast.hosts="192.168.0.71,192.168.0.81"
+        --node.master=false
+        --node.data=true
+        --bootstrap.mlockall=true
     ports:
-      - "5000:5000"
-      - "9600:9600"
+      - "9202:9200"
+      - "9302:9300"
     environment:
-      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+      discovery.type: zen
+      ES_JAVA_OPTS: "-Xmx8g"
+      ES_HEAP_SIZE: "4g"
     networks:
-      - elk
-    depends_on:
-      - elasticsearch
+      default:
+        ipv4_address: 192.168.0.81
+    restart: unless-stopped
 
   kibana:
     build:
@@ -51,6 +73,5 @@ services:
       - elasticsearch
 
 networks:
-
   elk:
     driver: bridge
