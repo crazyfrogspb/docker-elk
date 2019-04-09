@@ -7,24 +7,14 @@ services:
       context: elasticsearch/
       args:
         ELK_VERSION: $ELK_VERSION
-    command: >
-        elasticsearch
-        -Enode.name=$HOSTNAME
-        -Ecluster.name="smapp-elastic"
-        -Enetwork.host=0.0.0.0
-        -Ediscovery.zen.ping.multicast.enabled=false
-        -Ediscovery.zen.minimum_master_nodes=2
-        -Ediscovery.zen.ping.unicast.hosts="192.168.0.71,192.168.0.81,192.168.0.102"
-        -Enode.master=true
-        -Enode.data=true
+    volumes:
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
     ports:
       - "9200:9200"
       - "9300:9300"
     environment:
       discovery.type: zen
       ES_JAVA_OPTS: "-Xmx16000m -Xms16000m"
-    networks:
-      - elk
 
   kibana:
     build:
@@ -35,11 +25,5 @@ services:
       - ./kibana/config/:/usr/share/kibana/config:ro
     ports:
       - "5601:5601"
-    networks:
-      - elk
     depends_on:
       - elasticsearch
-
-networks:
-  elk:
-    driver: bridge
