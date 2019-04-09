@@ -8,10 +8,10 @@ services:
       args:
         ELK_VERSION: $ELK_VERSION
     volumes:
-      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch2.yml:ro
     ports:
-      - "9201:9200"
-      - "9301:9300"
+      - "9202:9200"
+      - "9302:9300"
     environment:
       discovery.type: zen
       ES_JAVA_OPTS: "-Xmx16000m -Xms16000m"

@@ -3,8 +3,8 @@
 ## from https://github.com/elastic/elasticsearch-docker/blob/master/build/elasticsearch/elasticsearch.yml
 #
 cluster.name: "smapp-elastic"
-node.name: "es-node-1"
-node.master: true
+node.name: "es-node-2"
+node.master: false
 node.data: true
 network.host: 0.0.0.0
 
