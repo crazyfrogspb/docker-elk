@@ -9,14 +9,14 @@ services:
         ELK_VERSION: $ELK_VERSION
     command: >
         elasticsearch
-        --node.name=$HOSTNAME
-        --cluster.name="smapp-elastic"
-        --network.host=0.0.0.0
-        --discovery.zen.ping.multicast.enabled=false
-        --discovery.zen.minimum_master_nodes=2
-        --discovery.zen.ping.unicast.hosts="192.168.0.71,192.168.0.81,192.168.0.102"
-        --node.master=true
-        --node.data=true
+        -Enode.name=$HOSTNAME
+        -Ecluster.name="smapp-elastic"
+        -Enetwork.host=0.0.0.0
+        -Ediscovery.zen.ping.multicast.enabled=false
+        -Ediscovery.zen.minimum_master_nodes=2
+        -Ediscovery.zen.ping.unicast.hosts="192.168.0.71,192.168.0.81,192.168.0.102"
+        -Enode.master=true
+        -Enode.data=true
     ports:
       - "9200:9200"
       - "9300:9300"
