@@ -9,7 +9,7 @@ services:
         ELK_VERSION: $ELK_VERSION
     command: >
         elasticsearch
-        --node.name=${HOSTNAME}
+        --node.name=$HOSTNAME
         --cluster.name="smapp-elastic"
         --network.host=0.0.0.0
         --discovery.zen.ping.multicast.enabled=false
